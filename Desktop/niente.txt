@@ -1,0 +1,1018 @@
+import sqlite3
+import time
+import pandas as pd
+import plotly.express as px  # (version 4.7.0 or higher)
+import plotly.graph_objects as go
+import dash
+from dash import Dash, dcc, html, Input, Output
+import urllib
+from urllib.parse import urlparse, parse_qsl, urlencode
+from plotly.subplots import make_subplots
+import wikilanguages_utils
+
+# script
+import wikilanguages_utils
+
+
+import requests
+
+path = '/Users/paoloaliprandi/Desktop/University of Trento/Tirocinio Tesi/EURECAT/observatory_code/codi per proves local/per jugar/Metrics/vital_signs_web.db'
+
+
+
+##### METHODS #####
+# parse
+def parse_state(url):
+    parse_result = urlparse(url)
+    params = parse_qsl(parse_result.query)
+    state = dict(params)
+    print (state)
+    return state
+
+# layout
+def apply_default_value(params):
+    def wrapper(func):
+        def apply_value(*args, **kwargs):
+            if 'id' in kwargs and kwargs['id'] in params:
+                kwargs['value'] = params[kwargs['id']]
+            return func(*args, **kwargs)
+        return apply_value
+    return wrapper
+
+
+
+def save_dict_to_file(dic):  
+    f = open('databases/'+'dict.txt','w')
+    f.write(str(dic))
+    f.close()
+
+def load_dict_from_file():
+    f = open('databases/'+'dict.txt','r')
+    data=f.read()
+    f.close()
+    return eval(data)
+
+
+
+
+# DASH APPS #
+#########################################################
+#########################################################
+#########################################################
+
+databases_path = 'databases/'
+
+
+wikilanguagecodes = ['de' , 'ru', 'it', 'en', 'pl','hu','uk', 'mk','lt','ro','bg']
+
+metrics = ['activity','retention','stability','balance','specialists','administrators','global']
+
+
+
+footbar = html.Div('')
+navbar = html.Div('')
+
+# # web
+title_addenda = ' - Wiki Community Health Metrics'
+external_stylesheets = ['https://wcdo.wmflabs.org/assets/bWLwgP.css']
+
+#########################################################
+#########################################################
+#########################################################
+
+
+######## METHODS
+
+
+####### -------------------- This is the beginning of the App.
+
+
+### DASH APP ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### 
+
+app = Dash(url_base_pathname = '/', external_stylesheets=external_stylesheets, suppress_callback_exceptions = True)
+app.config['suppress_callback_exceptions']=True
+app.title = 'Vital Signs'+title_addenda
+
+app.layout = html.Div([
+    dcc.Location(id='url', refresh=False),
+    html.Div(id='page-content'),
+])
+
+
+
+
+## ----------------------------------------------------------------------------------------------------- ##
+
+
+text_default = '''In this page you can retrieve results from Wikipedia language editions, including biographies and all kinds of topics, and check its availability in a specific Wikipedia.'''     
+
+text_results = '''
+The following table shows the resulting list of articles in the source language, and its availability in the target languages.
+
+The Qitem column provides the id and a link to the Wikidata corresponding page. The column Title provides the title in the source language. The next columns (editors, edits, pageviews, interwiki, creation date) show the value for some features in the first source language. The column LGBT indicator tells the number of languages in which the algorithm identified this article as part of the LGBT culture. If the content is ordered by another feature, this is added as an extra column. The column Target Langs. provides links to the article version in each of the selected target languages. The last column shows the title in the first target language.
+'''
+
+## ----------------------------------------------------------------------------------------------------- ##
+
+
+
+
+
+
+
+
+def dash_app19_build_layout(params):
+
+    functionstartTime = time.time()
+
+    # 'langcode','active_veryactive','year_yearmonth'
+    if len(params)!=0:
+   
+        print (params)
+       
+        conn = sqlite3.connect(path); cur = conn.cursor()
+
+        # CASE 2: CHANGING LAYOUT
+
+        # RESULTS
+
+        #title = params['metric']
+        #app.title = title+title_addenda
+
+        # LAYOUT
+        layout = html.Div([
+            navbar,
+            html.Div(id='title_container', children=[]),
+            html.H3(id='title', children=[], style={'textAlign':'center',"fontSize":"18px",'fontStyle':'bold'}, className = 'container'),
+            #html.H3(params['metric'], style={'textAlign':'center'},id='title'),
+            #html.Br(),
+            dcc.Markdown(
+                text_default.replace('  ', '')),
+            html.Br(),
+
+
+            # LINE 
+            html.Br(),
+
+            html.Div(
+            dcc.Dropdown(
+                id='metric',
+                options = [{'label': k, 'value': k} for k in metrics],
+                multi=False,
+                value = params['metric'],
+                style={'width': '490px'}
+             ), style={'display': 'inline-block','width': '500px'}),
+            
+            html.Div(
+            dcc.Dropdown(
+                id='langcode',
+                options = [{'label': k, 'value': k} for k in wikilanguagecodes],
+                multi=True,
+                value = 'en',
+                style={'width': '490px'}
+             ), style={'display': 'inline-block','width': '500px'}),
+
+            html.Div(
+            dcc.RadioItems(
+                id='active_veryactive',
+                options=[{'label':'Active','value':'5'},{'label':'Very Active','value':'100'}],
+                value='5',
+                labelStyle={'display': 'inline-block', "margin": "0px 5px 0px 0px"},
+                style={'width': '200px'}
+             ), style={'display': 'inline-block','width': '200px'}),
+
+            html.Div(
+            dcc.RadioItems(
+                id='year_yearmonth',
+                options=[{'label':'Yearly','value':'y'},{'label':'Monthly','value':'ym'}],
+                value='ym',
+                labelStyle={'display': 'inline-block', "margin": "0px 5px 0px 0px"},
+                style={'width': '200px'}
+             ), style={'display': 'inline-block','width': '200px'}),
+
+
+           
+
+            # there is the graph            
+            html.Div(id='output_container', children=[]),
+            html.Br(),
+
+            dcc.Graph(id='my_graph', figure={}),
+
+            html.Div(id='page-content', children=[]),
+
+            html.Div(id='output_container1', children=[]),
+            dcc.Markdown(id="temp", children=[], style={"font-size":"18px"}, className = 'container'),
+
+            html.Div(id='highlights_container', children=[]),
+            dcc.Markdown(id='highlights', children=[], style={"font-size":"18px"}, className = 'container'),
+
+            footbar,
+
+        ], className="container")
+         #print(str(datetime.timedelta(seconds=time.time() - functionstartTime))+' before printing')
+    else:
+
+        # CASE 1: INITIAL PAGE: ACTIVITY
+        layout = html.Div([
+            navbar,
+            html.H3('Activity', style={'textAlign':'center'}),
+            html.Br(),
+            dcc.Markdown(text_default.replace('  ', '')),
+
+            # HERE GOES THE INTERFACE
+            # LINE 
+            html.Br(),
+            html.H5('Select the source'),
+
+            html.Div(
+            apply_default_value(params)(dcc.Dropdown)(
+                id='metric',
+                options = [{'label': k, 'value': k} for k in metrics],
+                multi=False,
+                value = 'activity',
+                style={'width': '490px'}
+             ), style={'display': 'inline-block','width': '500px'}),
+
+            html.Div(
+            apply_default_value(params)(dcc.Dropdown)(
+                id='langcode',
+                options = [{'label': k, 'value': k} for k in wikilanguagecodes],
+                multi=True,
+                value = 'en',
+                style={'width': '490px'}
+             ), style={'display': 'inline-block','width': '500px'}),
+    #        dcc.Link('Query',href=""),
+
+            html.Div(
+            apply_default_value(params)(dcc.RadioItems)(id='active_veryactive',
+                options=[{'label':'Active','value':'5'},{'label':'Very Active','value':'100'}],
+                value='5',
+                labelStyle={'display': 'inline-block', "margin": "0px 5px 0px 0px"},
+                style={'width': '200px'}
+             ), style={'display': 'inline-block','width': '200px'}),
+
+            # LINE
+            html.Br(),
+            html.Div(
+            apply_default_value(params)(dcc.RadioItems)(id='year_yearmonth',
+                options=[{'label':'Yearly','value':'y'},{'label':'Monthly','value':'ym'}],
+                value='ym',
+                labelStyle={'display': 'inline-block', "margin": "0px 5px 0px 0px"},
+                style={'width': '200px'}
+             ), style={'display': 'inline-block','width': '200px'}),
+
+
+
+            # html.A(html.Button('Query Results!'),
+            #     href=''),           
+            footbar,
+        ], className="container")
+
+    return layout
+
+
+def activity_graph(language, user_type, time_type):
+
+    container = "The langcode chosen was: {}".format(language)
+
+    conn = sqlite3.connect(path)
+    cursor = conn.cursor()
+
+    params=""
+    for x in language:
+        params+="'"
+        params+=x
+        params+="',"
+    
+    params = params[:-1]
+
+    query0 = "select * from vital_signs_metrics where topic = 'active_editors' and year_year_month = '"+time_type+"' and m1_calculation = 'threshold' and m1_value = '"+user_type+"'"
+
+    query1=" and langcode IN (%s)"%params
+
+    query = query0 + query1
+
+   
+    print("QUERY = "+query)
+    print("LANGUAGE = "+params)
+    print("TIME = "+time_type)
+
+    df = pd.read_sql_query(query, conn)
+
+    df.reset_index(inplace=True)
+    #print(df[:100])
+
+    incipit = ''
+
+    if user_type=='active':
+        incipit='Active'
+    else:
+        incipit='Very Active'
+
+    if time_type=='y':
+        time_text='Year'
+    else:
+        time_text='Month of the Year'
+
+    fig = px.line(
+             df,
+             x='year_month',
+             y='m1_count',
+             color='langcode',
+             title=incipit+' Users',
+             labels={
+                     "m1_count": "Number of Monthly Active Editors (log)",
+                     "year_month": time_text,
+                     "langcode": "Projects"
+                     
+                 },
+            )
+    
+    fig.update_layout(
+        xaxis=dict(
+            rangeselector=dict(
+             buttons=list([
+                dict(count=6,
+                     label="<b>6M</b>",
+                     step="month",
+                     stepmode="backward"),
+                dict(count=1,
+                     label="<b>1Y</b>",
+                     step="year",
+                     stepmode="backward"),
+                dict(count=5,
+                     label="<b>5Y</b>",
+                     step="year",
+                     stepmode="backward"),
+                dict(count=10,
+                     label="<b>10Y</b>",
+                     step="year",
+                     stepmode="backward"),
+                dict(label="<b>ALL</b>",
+                     step="all")
+            ])
+        ),
+        rangeslider=dict(
+            visible=True
+        ),
+        type="date"
+      )
+    )
+
+    return fig
+
+def retention_graph(language, retention_rate):
+
+    container = "The langcode chosen was: {}".format(language)
+
+    conn = sqlite3.connect('/Users/paoloaliprandi/Desktop/University of Trento/Tirocinio Tesi/EURECAT/observatory_code/codi per proves local/per jugar/Metrics/vital_signs_web.db')
+    cursor = conn.cursor()
+
+    count=0
+    params=""
+    for x in language:
+        count+=1
+        params+="'"
+        params+=x
+        params+="',"
+    
+    params = params[:-1]
+
+    #users that register teirhselves  
+    query01 = "select * from vital_signs_metrics where topic = 'retention' and year_year_month = 'ym' and m1 = 'register' and m2_value='"+retention_rate+"'"
+    #retention 
+    query02 = "select * from vital_signs_metrics where topic = 'retention' and year_year_month = 'ym' and m1 = 'first_edit' and m2_value='"+retention_rate+"'"
+    
+    query1=query01+' and langcode IN (%s)'%params
+    query2=query02+' and langcode IN (%s)'%params
+
+
+    #print("QUERY 1 ="+query1)
+    #print("QUERY 2 = "+query2)
+
+    df1 = pd.read_sql_query(query1, conn)
+
+    df1.reset_index(inplace=True)
+    #print(df[:100])
+
+    df2 = pd.read_sql_query(query2, conn)
+
+    df2.reset_index(inplace=True)
+    
+    # Create figure with secondary y-axis
+    fig = make_subplots(
+        specs=[[{"secondary_y": True}]])
+
+    # Add bar
+    fig.add_bar( 
+        x=df1['year_month'], 
+        y=df1['m1_count'], 
+        name="Registered Editors",  
+        marker_color='gray')
+
+    # Add trace
+    df2['retention']=(df2['m2_count']/df2['m1_count'])*100
+
+    fig.add_trace(
+        go.Scatter(
+            x=df2['year_month'], 
+            y=df2['retention'], 
+            name="Retention Rate", 
+            hovertemplate='%{y:.2f}%', 
+            marker_color='orange'),
+            secondary_y=True)
+
+    # Add figure title
+    if retention_rate!='24h':
+        fig.update_layout(title="Retention of Users who had their first edit after "+str(retention_rate)+" days")
+    else:
+         fig.update_layout(title="Retention of Users who had their first edit after 24 hours")
+
+    # Set x-axis title
+    fig.update_xaxes(title_text="Year")
+
+    # Set y-axes titles
+    fig.update_yaxes(title_text="Registered Editors", secondary_y=False)
+    fig.update_yaxes(title_text="Retention Rate", secondary_y=True)
+
+    fig.update_layout(
+        xaxis=dict(
+            rangeselector=dict(
+             buttons=list([
+                dict(count=6,
+                     label="<b>6M</b>",
+                     step="month",
+                     stepmode="backward"),
+                dict(count=1,
+                     label="<b>1Y</b>",
+                     step="year",
+                     stepmode="backward"),
+                dict(count=5,
+                     label="<b>5Y</b>",
+                     step="year",
+                     stepmode="backward"),
+                dict(count=10,
+                     label="<b>10Y</b>",
+                     step="year",
+                     stepmode="backward"),
+                dict(label="<b>ALL</b>",
+                     step="all")
+            ])
+        ),
+        rangeslider=dict(
+            visible=True
+        ),
+        type="date"
+      )
+    )
+
+
+    return fig
+
+def balance_graph(language, user_type, value_type, time_type):
+
+    container = "The langcode chosen was: {}".format(language)
+
+    conn = sqlite3.connect('/Users/paoloaliprandi/Desktop/University of Trento/Tirocinio Tesi/EURECAT/observatory_code/codi per proves local/per jugar/databases/vital_signs_web.db')
+    cursor = conn.cursor()
+
+    params=""
+    for x in language:
+        params+="'"
+        params+=x
+        params+="',"
+    
+    params = params[:-1]
+
+    query0 = "select * from vital_signs_metrics where topic = 'balance' and year_year_month='"+time_type+"' and m1_value='"+user_type+"'"
+
+    query = query0 + " and langcode IN (%s)"%params
+    
+    #print("QUERY = "+query)
+
+    df = pd.read_sql_query(query, conn)
+
+    df.reset_index(inplace=True)
+    #print(df[:100])
+
+    df['perc']=((df['m2_count']/df['m1_count'])*100).round(2)
+
+    if value_type=='perc':
+        value_text='perc'
+        hover='%{y:.2f}%'
+    else:
+        value_text='m2_count'
+        hover=''
+
+    if time_type=='y':
+        time_text='Year'
+    else:
+        time_text='Month of the Year'
+    
+    if user_type=='5':
+        user_text='Active Editors'
+    else:
+        user_text='Very Active Editors'
+    
+    if value_type=='perc':
+        text_type='%{y:.2f}%'
+    else:
+        text_type=''
+
+    if len(language) == 1:
+        height_value = 400
+    else:
+        height_value = 270*len(language)
+
+    fig = px.bar(
+             df,
+             x='year_month',
+             y=value_text,
+             color='m2_value',
+             text=value_type,
+             facet_row=df['langcode'],
+             height=height_value,
+             color_discrete_map={
+                "2001-2005": "#3366CC",
+                "2006-2010": "#F58518",
+                "2011-2015": "#E45756",
+                "2016-2020": "#FC0080",
+                "2021-2025": "#1C8356"},
+             labels={
+                     "m1_count": "Active Editors",
+                     "year_month": time_text,
+                     "perc": user_text,
+                     "m2_value": "Lustrum First Edit",
+                     "m2_count": user_text,
+                     
+                 },
+             
+            )
+    
+    fig.update_layout(uniformtext_minsize=12)
+    fig.update_traces(texttemplate = text_type) #, hovertemplate=hover)
+    fig.update_layout(uniformtext_minsize=12, uniformtext_mode='hide')
+
+    fig.update_layout(
+        xaxis=dict(
+            rangeselector=dict(
+             buttons=list([
+                dict(count=6,
+                     label="<b>6M</b>",
+                     step="month",
+                     stepmode="backward"),
+                dict(count=1,
+                     label="<b>1Y</b>",
+                     step="year",
+                     stepmode="backward"),
+                dict(count=5,
+                     label="<b>5Y</b>",
+                     step="year",
+                     stepmode="backward"),
+                dict(count=10,
+                     label="<b>10Y</b>",
+                     step="year",
+                     stepmode="backward"),
+                dict(label="<b>ALL</b>",
+                     step="all")
+            ])
+        ),
+        rangeslider=dict(
+            visible=False
+        ),
+        type="date"
+      ),
+      uniformtext_minsize=15
+    )
+
+
+    return fig
+
+def stability_graph(language, user_type, value_type, time_type):
+
+    container = "The langcode chosen was: {}".format(language)
+
+    conn = sqlite3.connect('/Users/paoloaliprandi/Desktop/University of Trento/Tirocinio Tesi/EURECAT/observatory_code/codi per proves local/per jugar/databases/vital_signs_web.db')
+    cursor = conn.cursor()
+
+    params=""
+    for x in language:
+        params+="'"
+        params+=x
+        params+="',"
+    params = params[:-1]
+
+    query0 = "select * from vital_signs_metrics where topic = 'stability' and year_year_month='"+time_type+"' and m1_value='"+user_type+"'"
+
+    query = query0 + " and langcode IN (%s)"%params
+    
+    #print("QUERY = "+query)
+
+    df = pd.read_sql_query(query, conn)
+
+    df.reset_index(inplace=True)
+    #print(df[:100])
+
+    df['perc']=((df['m2_count']/df['m1_count'])*100).round(2)
+
+    if time_type=='y':
+        time_text='Year'
+    else:
+        time_text='Month of the Year'
+    
+    if value_type=='perc':
+        text_type='%{y:.2f}%'
+    else:
+        text_type=''
+
+    if len(language) == 1:
+        height_value = 400
+    else:
+        height_value = 270*len(language)
+
+    fig = px.bar(
+             df,
+             x='year_month',            
+             y=value_type,
+             color='m2_value',
+             text=value_type,
+             facet_row=df['langcode'],
+             height=height_value,
+             color_discrete_map={
+                 "1": "gray",
+                "2": "#00CC96",
+                "3-6": "#FECB52",
+                "7-12": "red",
+                "13-24": "#E377C2",
+                "24+": "#636EFA"},
+             labels={
+                     "year_month": time_text,
+                     "perc": "Active Editors (%)",
+                     "m2_value": "Active Months in a row",
+                     "m2_count": "Active Editors (num)"
+                 }
+            )
+    
+    fig.update_layout(font_size=12)
+    
+    fig.update_traces(texttemplate = text_type)
+    fig.update_layout(uniformtext_minsize=12, uniformtext_mode='hide') #it also causes the text to float
+
+    fig.update_layout(
+        xaxis=dict(
+            rangeselector=dict(
+             buttons=list([
+                dict(count=6,
+                     label="<b>6M</b>",
+                     step="month",
+                     stepmode="backward"),
+                dict(count=1,
+                     label="<b>1Y</b>",
+                     step="year",
+                     stepmode="backward"),
+                dict(count=5,
+                     label="<b>5Y</b>",
+                     step="year",
+                     stepmode="backward"),
+                dict(count=10,
+                     label="<b>10Y</b>",
+                     step="year",
+                     stepmode="backward"),
+                dict(label="<b>ALL</b>",
+                     step="all")
+            ])
+        ),
+        rangeslider=dict(
+            visible=False
+        ),
+        type="date"
+      )
+    )
+
+    return fig
+
+def timeconversion(rawdate, time_type):
+
+    if time_type == 'ym':
+
+        year=''; month=''
+
+        #print("Raw date is: "+rawdate)
+
+        lista = rawdate.split('-')
+
+        #print(lista[0])
+        #print(lista[1])
+
+        year=lista[0]
+
+        if lista[1] == '1':
+            month='January'
+        elif lista[1] == '2':
+            month='February'
+        elif lista[1] == '3':
+            month='March'
+        elif lista[1] == '4':
+            month='April'
+        elif lista[1] == '5':
+            month='May'
+        elif lista[1] == '6':
+            month='June'
+        elif lista[1] == '7':
+            month='July'
+        elif lista[1] == '8':
+            month='August'
+        elif lista[1] == '9':
+            month='September'
+        elif lista[1] == '10':
+            month='October'
+        elif lista[1] == '11':
+            month='November'
+        elif lista[1] == '12':
+            month='December'
+        else:
+            month='invalid'
+
+        date=month+' '+year
+        #print("Date is:"+date)
+    elif time_type == 'y':
+        date=rawdate
+    return date
+
+def get_count(df):
+    #il valore della media nell'ultimo tempo
+    temp_c = df["m1_count"].tolist()
+    count = temp_c[0]
+
+    return count
+
+def get_media(df):
+    #la media negli ultimi 5 anni/mesi
+    temp_m = df["Media"].tolist()   
+    media = temp_m[0]
+
+    return media
+
+def get_time(df):
+    #l'ultimo tempo disponibile
+    temp = df["year_month"].tolist()
+    temp1 = temp[0]
+
+    return temp1
+
+def generate1(lingua, attivi, tempo, last5, conn):
+    
+    query0 = "SELECT * FROM vital_signs_metrics WHERE topic = 'active_editors' AND m1_value="+attivi+" AND year_year_month = '"+tempo+"'"
+    query1 = " AND langcode IN (%s) ORDER BY year_month DESC LIMIT 1"%lingua
+
+    query=query0+query1
+
+    df1 = pd.read_sql_query(query, conn)
+
+    df1.reset_index(inplace=True)
+
+    print("QUERY FOR DATAFRAME (HIGHLIGHTS)="+query)
+    #print("---------------------------")
+
+    return df1
+
+def generate2(lingua, attivi, tempo, last5, conn):
+
+    query0 = "SELECT AVG(m1_count) AS Media FROM vital_signs_metrics WHERE year_month IN "+last5+" AND topic = 'active_editors' AND year_year_month = '"+tempo+"'  AND m1_value='"+attivi+"'"
+    query1 = " AND langcode IN (%s)"%lingua
+
+    query2=query0+query1
+
+    df2 = pd.read_sql_query(query2, conn)
+
+    df2.reset_index(inplace=True)
+
+    #print("QUERY FOR AVERAGE ="+query2)
+    #print("---------------------------")
+
+    return df2
+
+def generatetail(count, media, active, time):
+
+    if (count > media):
+        tail = ", which is **above** the median number (**"+str(media)+"**) of "+active+" editors of the five last **"+time+"**. \n"
+    else:
+        tail = ", which is **below** the median number (**"+str(media)+"**) of "+active+" editors of the five last **"+time+"**. \n"
+
+    return tail
+
+def findMax(language, active, yearmonth, time, conn):
+
+    query0 = "SELECT MAX(m1_count) as max,langcode FROM vital_signs_metrics WHERE topic = 'active_editors' AND m1_value = '"+active+"' AND year_year_month = '"+yearmonth+"' AND year_month='"+time+"'"
+    query1 = " AND langcode IN (%s)"%language
+
+    query = query0 + query1
+    #print("FIND MAX="+query)
+
+    df = pd.read_sql_query(query, conn)
+    df.reset_index(inplace=True)    
+    return df
+
+def findMin(language, active, yearmonth, time, conn):
+
+    query0 = "SELECT MIN(m1_count) as min,langcode FROM vital_signs_metrics WHERE topic = 'active_editors' AND m1_value = '"+active+"' AND year_year_month = '"+yearmonth+"' AND year_month='"+time+"'"
+    query1 = " AND langcode IN (%s)"%language
+
+    query = query0 + query1
+    #print("FIND MIN="+query)
+
+    df = pd.read_sql_query(query, conn)
+    df.reset_index(inplace=True)    
+    return df
+
+@app.callback([Output(component_id='highlights_container', component_property='children'),
+                        Output(component_id='highlights', component_property='children') ],
+                        [Input(component_id='langcode', component_property='value'),
+                        Input(component_id='active_veryactive', component_property='value'),
+                        Input(component_id='year_yearmonth', component_property='value')])
+def highlights(language, user_type, time_type):
+
+    #print("HIGHLIGHTSHIGHLIGHTSHIGHLIGHTSHIGHLIGHTSHIGHLIGHTSHIGHLIGHTS") 
+
+    conn = sqlite3.connect(path)
+    cursor = conn.cursor()
+
+    container=""
+
+    if user_type == '5':
+        active='active'
+    elif user_type == '100':
+        active='very active'
+
+    # if language == None:
+    #     languages = []
+    # 
+    # langs = []
+    # if type(language) != str:
+    #     for x in language: langs.append(language_names[x])
+    # else:
+    #     langs.append(language_names[language])
+    
+    
+    params=""
+    for x in language:
+        params+="'"
+        params+=x
+        params+="',"
+    
+    params = params[:-1]
+
+    if time_type == 'y':
+        last5 = "('2021','2020','2019','2018','2017')"
+        time="years"
+    elif time_type == 'ym':
+        last5 = "('2021-12','2021-11','2021-10','2021-09','2021-08')"
+        time="months"
+
+    
+
+    h1=""
+    h2=""
+
+    if len(language) == 0:
+        h1=""
+        h2=""
+    elif len(language) != 1:
+
+        for x in language:
+
+            df1 = generate1("'"+x+"'", user_type, time_type, last5, conn)
+            df2 = generate2("'"+x+"'", user_type, time_type, last5, conn)
+
+            count = "100" #get_count(df1)
+            media = "120" #get_media(df2)
+
+            tail = generatetail(count, media, active, time)
+
+            timespan = "2021-11" # get_time(df1)
+            date = timeconversion(timespan, time_type)
+
+            h1=h1+"* In **"+date+"**, in **"+x+"** Wikipedia, the number of "+active+" editors was **"+str(count)+"**"+tail
+
+        dfmax = findMax(params, user_type, time_type, timespan, conn)
+        dfmin = findMin(params, user_type, time_type, timespan, conn)
+
+        max0 = dfmax["langcode"].tolist()
+        maxlang = max0[0]
+        max1 = dfmax["max"].tolist()
+        max = max1[0]
+
+        min0 = dfmin["langcode"].tolist()
+        minlang = min0[0]
+        min1 = dfmin["min"].tolist()
+        min = min1[0]
+
+        h2="* **"+str(maxlang)+"** Wikipedia language edition has the higher number of "+active+" editors (**"+str(max)+"**), **"+str(minlang)+"** Wikipedia has the lower (**"+str(min)+"**)."
+    else:
+
+        df1 = generate1(params, user_type, time_type, last5, conn)
+        df2 = generate2(params, user_type, time_type, last5, conn)
+
+        count = "100" #get_count(df1)
+        media = "120" #get_media(df2)
+
+        tail = generatetail(count, media, active, time)
+
+        timespan = '2021-11' #get_time(df1)
+        date = timeconversion(timespan, time_type)
+
+        h1="* In **"+date+"**, in **"+str(language)+"** Wikipedia, the number of "+active+" editors was **"+str(count)+"**"+tail
+        h2=""
+
+
+    #print("---------------------------")
+
+    return container, h1+"\n"+h2
+
+@app.callback([Output(component_id='title_container', component_property='children'),
+               Output(component_id='title', component_property='children'),
+               Output(component_id='output_container', component_property='children'),
+               Output(component_id='my_graph', component_property='figure')],
+               [Input('metric','value'),
+                Input(component_id='langcode', component_property='value'),
+                Input(component_id='active_veryactive', component_property='value'),
+                Input(component_id='year_yearmonth', component_property='value')])
+def change_graph(metric,language,user_type,time_type):
+
+    #print("CAMBIO TITOLO"+ metric)
+
+    count=0
+
+    retention_rate = '60d'
+
+    params=""
+    for x in language:
+        count+=1
+        params+="'"
+        params+=x
+        params+="',"
+    
+    params = params[:-1]
+
+    conn = sqlite3.connect(path)
+    cursor = conn.cursor()
+
+    container = "The langcode chosen was: {}".format(language)
+
+    fig=""
+
+    if metric=='activity':
+
+        fig = activity_graph(language, user_type, time_type)
+        
+        return "",metric,container,fig
+    elif metric == 'retention':
+
+        fig = retention_graph(language, retention_rate)
+        
+        return "",metric,container,fig
+    elif metric == 'stability':
+        
+        fig = stability_graph(language, user_type, 'perc', time_type)
+
+        return "",metric,"",fig
+    elif metric == 'balance':
+        
+        fig = balance_graph(language, user_type, 'perc', time_type)
+
+        return "",metric,"",fig
+    else:
+        df = px.data.gapminder().query("country=='Canada'")
+        fig = px.line(df, x="year", y="lifeExp", title='Life expectancy in Canada')
+        return "",metric,"",fig
+    
+    
+
+
+# callback update URL
+component_ids= ['metric','langcode','active_veryactive','year_yearmonth']
+@app.callback(Output('url', 'search'),
+              inputs=[Input(i, 'value') for i in component_ids])
+def update_url_state(*values):
+#    print (values)
+
+    values = values[0],values[1],values[2],values[3]
+
+    state = urlencode(dict(zip(component_ids, values)))
+    return '?'+state
+#    return f'?{state}'
+
+# callback update page layout
+@app.callback(Output('page-content', 'children'),
+              inputs=[Input('url', 'href')])
+def page_load(href):
+    if not href:
+        return []
+    state = parse_state(href)
+    return dash_app19_build_layout(state)
+
+
+    
+if __name__ == '__main__':
+    app.run_server(debug=True)#,dev_tools_ui=False)
