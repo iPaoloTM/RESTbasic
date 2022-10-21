@@ -1,0 +1,36 @@
+[
+    {
+        "uuid": "6b276a29-6405-4aba-8c94-4289ffe6951a",
+        "title": "Event",
+        "category": "MEETING",
+        "description": "A good event",
+        "dates": {
+            "start": "2022-10-17T18:00:00Z",
+            "end": "2022-10-18T18:00:00Z"
+        },
+        "joinOptions": "FREE",
+        "website": "https://localhost:8080/",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    -73.856077,
+                    40.848447
+                ]
+            },
+            "country": "Italy",
+            "region": "Autonomus province of trento",
+            "province": "Trento",
+            "city": "Trento",
+            "street": "115 Boulev de l'europe"
+        },
+        "contacts": [
+            {
+                "name": "Mario",
+                "surname": "Rossi",
+                "phoneNumber": "+39 1234567890",
+                "email": "mail@mail.com"
+            }
+        ]
+    }
+]

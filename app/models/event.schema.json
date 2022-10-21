@@ -1,0 +1,171 @@
+{
+    "$id": "https://simone-compri-209099.com/event.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "description": "Base structure of an event",
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["uuid","title","category","dates","physicalAddress"],
+    "properties": {
+        "_id": {
+            "bsonType": "objectId",
+            "description": "Event Object ID",
+            "pattern": "^[a-f\\d]{24}$"
+        },
+        "uuid": {
+            "type": "string",
+            "description": "Event Universally Unique IDentifier",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "title": {
+            "type": "string",
+            "description": "Event title"
+        },
+        "category": {
+            "type": "string",
+            "description": "Event category",
+            "enum": [
+                "ARTS",
+                "BOOK_CLUBS",
+                "BUSINESS",
+                "CAUSES",
+                "COMEDY",
+                "CRAFTS",
+                "FOOD_DRINK",
+                "HEALTH",
+                "MUSIC",
+                "AUTO_BOAT_AIR",
+                "COMMUNITY",
+                "FAMILY_EDUCATION",
+                "FASHION_BEAUTY",
+                "FILM_MEDIA",
+                "GAMES",
+                "LANGUAGE_CULTURE",
+                "LEARNING",
+                "LGBTQ",
+                "MOVEMENTS_POLITICS",
+                "NETWORKING",
+                "PARTY",
+                "PERFORMING_VISUAL_ARTS",
+                "PETS",
+                "PHOTOGRAPHY",
+                "OUTDOORS_ADVENTURE",
+                "SPIRITUALITY_RELIGION_BELIEFS",
+                "SCIENCE_TECH",
+                "SPORTS",
+                "THEATRE",
+                "MEETING"
+            ]
+        },
+        "description": {
+            "type": "string",
+            "description": "Event description"
+        },
+        "dates": {
+            "type": "object",
+            "description": "Dates of the event",
+            "required": ["start","end"],
+            "properties": {
+                "start": {
+                    "type": "string",
+                    "description": "Start date of the event (format: simplified extended ISO format - ISO 8601)",
+                    "pattern": "^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]+)?(Z|[+-](?:2[0-3]|[01][0-9]):[0-5][0-9])?$"
+                },
+                "end": {
+                    "type": "string",
+                    "description": "End date of the event (format: simplified extended ISO format - ISO 8601)",
+                    "pattern": "^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]+)?(Z|[+-](?:2[0-3]|[01][0-9]):[0-5][0-9])?$"
+                }
+            }
+        },
+        "joinOptions": {
+            "type": "string",
+            "description": "Event entry option",
+            "enum": [
+                "FREE",
+                "RESTRICTED",
+                "INVITE"
+            ]
+        },
+        "website": {
+            "type": "string",
+            "description": "Event website"
+        },
+        "physicalAddress": {
+            "type": "object",
+            "description": "Event address information",
+            "required": ["geo"],
+            "properties": {
+                "geo": {
+                    "type": "object",
+                    "description": "Geographical coordinates (format: GeoJSON)",
+                    "required": ["type","coordinates"],
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "description": "GeoJSON type",
+                            "enum": ["Point"]
+                        },
+                        "coordinates": {
+                            "type": "array",
+                            "description": "[-180<=longitude<=180,-90<latitude<90]",
+                            "minItems": 2,
+                            "maxItems": 2,
+                            "items": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "country": {
+                    "type": "string",
+                    "description": "Country"
+                },
+                "region": {
+                    "type": "string",
+                    "description": "Country region"
+                },
+                "province": {
+                    "type": "string",
+                    "description": "Administrative district or division of a country or a region"
+                },
+                "city": {
+                    "type": "string",
+                    "description": "City"
+                },
+                "street": {
+                    "type": "string",
+                    "description": "Street address"
+                }
+            }
+        },
+        "contacts": {
+            "type": "array",
+            "description": "Event contacts",
+            "items": {
+                "type": "object",
+                "description": "Contact description",
+                "required": ["email"],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Contact name"
+                    },
+                    "surname": {
+                        "type": "string",
+                        "description": "Contact surname"
+                    },
+                    "phoneNumber": {
+                        "type": "string",
+                        "description": "Contact phone number",
+                        "pattern": "^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{4})(?: *x(\\d+))?\\s*$"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "Contact email",
+                        "pattern": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
+                    }
+                }
+            }
+        }
+    }
+}

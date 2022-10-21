@@ -4,6 +4,7 @@
   "description": "Rest basics project",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/iPaoloTM/RESTbasic/issues"
   },
-  "homepage": "https://github.com/iPaoloTM/RESTbasic#readme"
+  "homepage": "https://github.com/iPaoloTM/RESTbasic#readme",
+  "dependencies": {
+    "convert-json-schema-to-mongoose": "^0.3.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mongoose": "^6.6.6",
+    "uuid": "^9.0.0"
+  }
 }
