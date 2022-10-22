@@ -3,7 +3,7 @@
 const config = require('./config');
 const app = require('./app/app');
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 6000;
 
 config.initDB()
     .then(msg => {
