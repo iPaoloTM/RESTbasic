@@ -23,8 +23,6 @@ module.exports.create_event = (req, res) => {
     let physicalAddress = req.body.physicalAddress
     let contacts = req.body.contacts
 
-    Event.init();
-
     Event.create({
         "uuid": uuid,
         "title": title,
