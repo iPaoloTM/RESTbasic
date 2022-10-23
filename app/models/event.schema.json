@@ -3,14 +3,8 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "description": "Base structure of an event",
     "type": "object",
-    "additionalProperties": false,
     "required": ["uuid","title","category","dates","physicalAddress"],
     "properties": {
-        "_id": {
-            "bsonType": "objectId",
-            "description": "Event Object ID",
-            "pattern": "^[a-f\\d]{24}$"
-        },
         "uuid": {
             "type": "string",
             "description": "Event Universally Unique IDentifier",

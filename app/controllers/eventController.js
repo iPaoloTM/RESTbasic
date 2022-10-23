@@ -13,7 +13,40 @@ let MSG = {
 module.exports.get_events = (req, res) => {};
 
 module.exports.create_event = (req, res) => {
-    
+    let uuid = req.body.uuid;
+    let title = req.body.title;
+    let category = req.body.category
+    let description = req.body.description
+    let dates = req.body.dates
+    let joinOptions = req.body.joinOptions
+    let website = req.body.website
+    let physicalAddress = req.body.physicalAddress
+    let contacts = req.body.contacts
+
+    Event.init();
+
+    Event.create({
+        "uuid": uuid,
+        "title": title,
+        "category": category,
+        "description": description,
+        "dates": dates,
+        "joinOptions": joinOptions,
+        "website": website,
+        "physicalAddress": physicalAddress,
+        "contacts": contacts
+    },
+    (err, event) => {
+        if (err) {
+            console.log(err)
+            res.status(400).json({
+                error: MSG.createFailed
+            })
+        }
+        else {
+            res.status(200).json(event);
+        }
+    })
 };
 
 module.exports.delete_events = (req, res) => {};
