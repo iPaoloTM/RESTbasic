@@ -10,7 +10,7 @@ config.initDB()
         console.log(msg);
 
         const server = app.listen(PORT, () => {
-            console.log("Server started");
+            console.log("Server started. Port: ", PORT);
         });
     })
     .catch(err => {

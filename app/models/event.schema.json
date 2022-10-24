@@ -118,9 +118,9 @@
                     "type": "string",
                     "description": "Country region"
                 },
-                "province": {
+                "Postal code": {
                     "type": "string",
-                    "description": "Administrative district or division of a country or a region"
+                    "description": "Postal code"
                 },
                 "city": {
                     "type": "string",
