@@ -88,6 +88,11 @@ module.exports.create_event = (req, res) => {
     let physicalAddress = req.body.physicalAddress;
     let contacts = req.body.contacts;
 
+    if(uuid == undefined || title == undefined || category == undefined || dates == undefined || physicalAddress == undefined){
+        res.status(400).json({ error: MSG.badRequest });
+		return;
+    }
+
     Event.create({
         "uuid": uuid,
         "title": title,
@@ -101,10 +106,19 @@ module.exports.create_event = (req, res) => {
     },
     (err, event) => {
         if (err) {
-            console.log(err)
-            res.status(409).json({
-                error: MSG.conflict
-            })
+            if(err.code == 121){                //121 validation error
+                res.status(400).json({
+                    error: MSG.badRequest
+                })
+            } else if(err.code == 11000){       //11000 duplicated key
+                res.status(409).json({
+                    error: MSG.conflict
+                })
+            } else {                            //all other cases general server error
+                res.status(500).json({
+                    error: MSG.serverError
+                })
+            }
         }
         else {
             res.status(200).json(event);
@@ -177,7 +191,11 @@ module.exports.get_event = (req, res) => {
             "uuid": req.params.uuid
         },
         (err, event) => {
-            if(err || event == null){
+            if(err){
+                res.status(500).json({
+                    error: MSG.serverError
+                })
+            } else if(event == null){                          //Never return error, it only returns null event collection
                 res.status(404).json({
                     error: MSG.eventNotFound
                 })
@@ -214,10 +232,21 @@ module.exports.update_event = (req, res) => {
             new:true
         },
         (err, event) => {
-            if (err) {
-                res.status(400).json({
-                    //error: MSG.updateFailed
-                })
+            if (err || event == null) {
+
+                if(err && err.code == 121){                //121 validation error
+                    res.status(400).json({
+                        error: MSG.badRequest
+                    })
+                } else if(event ==  null){      
+                    res.status(404).json({
+                        error: MSG.eventNotFound
+                    })
+                } else {                            //all other cases general server error
+                    res.status(500).json({
+                        error: MSG.serverError
+                    })
+                }
             }
             else {
                 res.status(200).json(event);
@@ -232,9 +261,13 @@ module.exports.delete_event = (req, res) => {
             "uuid": req.params.uuid
         },
         (err, op) => {
-            if(err || op.deletedCount == 0){
+            if(op.deletedCount == 0){                       //if event not found
                 res.status(404).json({
                     error: MSG.eventNotFound
+                })
+            } else if (err){
+                res.status(500).json({
+                    error: MSG.serverError
                 })
             } else {
                 res.status(200).json("Event deleted")
