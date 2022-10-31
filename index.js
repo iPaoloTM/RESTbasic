@@ -2,6 +2,7 @@
 
 const config = require('./config');
 const app = require('./app/app');
+const mobilizon = require('./app/helperClass/mobilizonGraphQL')
 
 const PORT = process.env.PORT || 6000;
 
@@ -17,42 +18,13 @@ config.initDB()
         throw(new Error(err));
     });
 
-    const GraphQLClient = require('graphql-request').GraphQLClient
+    
+mobilizon.getEvents().then( events => {
+    //HERE call the function to put the events in the database
+    console.log(events)
+  }).catch(err => {
+    console.log(error);
+  });
+  
 
-    const client = new GraphQLClient('http://localhost', {
-      headers: {
-        //Authorization: 'Bearer YOUR_AUTH_TOKEN',
-        email: "test@mail.com",
-        password: "mypassword"
-      },
-    });
-    
-    
-    client.request(`
-        {
-          events{
-            elements{
-              uuid
-               title
-              category
-              description
-              endsOn
-              beginsOn
-              joinOptions
-              onlineAddress
-              physicalAddress{
-                geom
-                country
-                region
-                locality
-                street
-                postalCode
-              }
-              contacts{
-                name
-                summary
-              }
-            }
-          }
-        }
-      `).then(events => console.log(events)).catch(err => console.log(err))
+
