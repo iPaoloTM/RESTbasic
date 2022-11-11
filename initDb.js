@@ -17,6 +17,7 @@ const sample_events = require("./sample_events.json");
 })).then(async () => {
     Event = mongoose.model('Event',model);
     await Event.collection.drop();
+    //await Event.deleteMany({});
     await Event.createCollection();
 
     await mobilizon.getEvents().then( events => {

@@ -14,7 +14,7 @@ module.exports.getEvents = () =>{
             events{
               elements{
                 uuid
-                title
+                 title
                 category
                 description
                 endsOn
