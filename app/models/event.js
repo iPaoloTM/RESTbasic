@@ -7,4 +7,8 @@ const schema = JSON.parse(fs.readFileSync(path.resolve(__dirname,"./event.schema
 
 const EventSchema = new mongoose.Schema(convertJsonSchemaToMongoose.createMongooseSchema({}, schema));
 
+EventSchema.index({"uuid": "text"},{unique: true})
+
+EventSchema.index({"physicalAddress.geo": "2dsphere"});
+
 module.exports = EventSchema;

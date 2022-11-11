@@ -8,14 +8,13 @@ const client = new GraphQLClient('http://0.0.0.0:4000/api', {
     },
 });
 
-
 module.exports.getEvents = () =>{
     return client.request(`
           {
             events{
               elements{
                 uuid
-                 title
+                title
                 category
                 description
                 endsOn
