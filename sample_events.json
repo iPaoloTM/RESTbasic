@@ -14,15 +14,1035 @@
             "geo": {
                 "type": "Point",
                 "coordinates": [
+                    45.454967071564106,
+                    11.02984920555249
+                ]
+            },
+            "country": "Italy",
+            "region": "Veneto",
+            "postalCode": "37131",
+            "city": "Verona",
+            "street": "Via L. Perini, 3"
+        },
+        "contacts": [
+            {
+                "name": "Mario",
+                "surname": "Rossi",
+                "phoneNumber": "+39 1234567890",
+                "email": "mail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "5c793b54-3829-431d-9e7a-7353243212dd",
+        "title": "Event 1",
+        "category": "ARTS",
+        "description": "Good arts",
+        "dates": {
+            "start": "2022-01-17T18:00:00Z",
+            "end": "2022-11-18T18:00:00Z"
+        },
+        "joinOptions": "FREE",
+        "website": "https://localhost:8080/arts",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    45.454967071564106,
+                    11.02984920555249
+                ]
+            },
+            "country": "Italy",
+            "region": "Veneto",
+            "postalCode": "37131",
+            "city": "Verona",
+            "street": "Via L. Perini, 3"
+        },
+        "contacts": [
+            {
+                "name": "Mario",
+                "surname": "Rossi",
+                "phoneNumber": "+39 1234567890",
+                "email": "mail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "112b0a00-f8e7-45ae-9241-2baa2afedbc4",
+        "title": "Event 2",
+        "category": "BOOK_CLUBS",
+        "description": "A lot of books",
+        "dates": {
+            "start": "2022-11-17T18:00:00Z",
+            "end": "2022-11-18T18:00:00Z"
+        },
+        "joinOptions": "FREE",
+        "website": "https://localhost:8080/books",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    45.466057650734136,
+                    9.19039789759133
+                ]
+            },
+            "country": "Italy",
+            "region": "Lombardia",
+            "postalCode": "20121",
+            "city": "Milano",
+            "street": "Via Ugo Foscolo, 1/3"
+        },
+        "contacts": [
+            {
+                "name": "Maria",
+                "surname": "Jackson",
+                "phoneNumber": "+39 0987654321",
+                "email": "mariamail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "a6561f5d-49fa-4526-9024-ad5110a9613b",
+        "title": "Event 3",
+        "category": "BUSINESS",
+        "description": "ICT innovation and business",
+        "dates": {
+            "start": "2022-10-05T18:00:00Z",
+            "end": "2022-12-19T18:00:00Z"
+        },
+        "joinOptions": "RESTRICTED",
+        "website": "https://localhost:8080/business",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
                     -73.856077,
                     40.848447
                 ]
             },
             "country": "Italy",
             "region": "Autonomus province of trento",
-            "province": "Trento",
+            "postalCode": "38123",
             "city": "Trento",
-            "street": "115 Boulev de l'europe"
+            "street": "Via Sommarive"
+        },
+        "contacts": [
+            {
+                "name": "Carlo",
+                "surname": "Pasquini",
+                "phoneNumber": "+39 1357902468",
+                "email": "business@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "c193728d-1e61-462f-93f4-f4246c9484a5",
+        "title": "Event 4",
+        "category": "COMEDY",
+        "description": "Have fun",
+        "dates": {
+            "start": "2022-12-20T18:00:00Z",
+            "end": "2022-12-22T18:00:00Z"
+        },
+        "joinOptions": "INVITE",
+        "website": "https://localhost:8080/comedy",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    45.418351529222264,
+                    10.987463953030717
+                ]
+            },
+            "country": "Italy",
+            "region": "Veneto",
+            "postalCode": "37135",
+            "city": "Verona",
+            "street": "Via Molinara, 23"
+        },
+        "contacts": [
+            {
+                "name": "Maria",
+                "surname": "Jackson",
+                "phoneNumber": "+39 0987654321",
+                "email": "mariamail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "9b35dff1-dd91-474f-9f5e-a7a1049582af",
+        "title": "Event 5",
+        "category": "CRAFTS",
+        "description": "MineCraft",
+        "dates": {
+            "start": "2022-10-20T18:00:00Z",
+            "end": "2022-12-22T18:00:00Z"
+        },
+        "joinOptions": "FREE",
+        "website": "https://localhost:8080/craft",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    45.41344192976605,
+                    10.984510532436602
+                ]
+            },
+            "country": "Italy",
+            "region": "Veneto",
+            "postalCode": "37135",
+            "city": "Verona",
+            "street": "Via Merano, 25"
+        },
+        "contacts": [
+            {
+                "name": "Maria",
+                "surname": "Jackson",
+                "phoneNumber": "+39 0987654321",
+                "email": "mariamail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "f21e619f-6ecc-4db8-ac57-85bd1b5081a1",
+        "title": "Event 6",
+        "category": "FOOD_DRINK",
+        "description": "Master cooker",
+        "dates": {
+            "start": "2022-10-22T18:00:00Z",
+            "end": "2022-12-22T18:00:00Z"
+        },
+        "joinOptions": "FREE",
+        "website": "https://localhost:8080/food",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    45.41344192976605,
+                    10.984510532436602
+                ]
+            },
+            "country": "Italy",
+            "region": "Veneto",
+            "postalCode": "37135",
+            "city": "Verona",
+            "street": "Via Merano, 25"
+        },
+        "contacts": [
+            {
+                "name": "Maria",
+                "surname": "Jackson",
+                "phoneNumber": "+39 0987654321",
+                "email": "mariamail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "eb5a4464-de1a-44ec-98d4-2ad43818d010",
+        "title": "Event 7",
+        "category": "MUSIC",
+        "description": "Imagine dragon concert",
+        "dates": {
+            "start": "2023-10-17T18:00:00Z",
+            "end": "2023-10-18T18:00:00Z"
+        },
+        "joinOptions": "RESTRICTED",
+        "website": "https://localhost:8080/music",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    45.43916139670549,
+                    10.994432499634083
+                ]
+            },
+            "country": "Italy",
+            "region": "Veneto",
+            "postalCode": "37121",
+            "city": "Verona",
+            "street": "P.za Bra, 1"
+        },
+        "contacts": [
+            {
+                "name": "Mario",
+                "surname": "Rossi",
+                "phoneNumber": "+39 1234567890",
+                "email": "mail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "0ca01dda-68d1-44e4-8d3a-dfe38acb2f15",
+        "title": "Event 8",
+        "category": "AUTO_BOAT_AIR",
+        "description": "Let's drive",
+        "dates": {
+            "start": "2022-10-18T18:00:00Z",
+            "end": "2022-10-18T20:00:00Z"
+        },
+        "joinOptions": "RESTRICTED",
+        "website": "https://localhost:8080/drive",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    45.44782858351388,
+                    10.695339614163599
+                ]
+            },
+            "country": "Italy",
+            "region": "Veneto",
+            "postalCode": "37019",
+            "city": "Peschiera del Garda",
+            "street": "Lungolago Giuseppe Garibaldi"
+        },
+        "contacts": [
+            {
+                "name": "Mario",
+                "surname": "Rossi",
+                "phoneNumber": "+39 1234567890",
+                "email": "mail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "43fe97f2-2e5a-4065-9a32-70a4d07826f1",
+        "title": "Event 9",
+        "category": "COMMUNITY",
+        "description": "Comunication",
+        "dates": {
+            "start": "2022-11-18T18:00:00Z",
+            "end": "2022-11-18T20:00:00Z"
+        },
+        "joinOptions": "FREE",
+        "website": "https://localhost:8080/comunication",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    45.454967071564106,
+                    11.02984920555249
+                ]
+            },
+            "country": "Italy",
+            "region": "Veneto",
+            "postalCode": "37131",
+            "city": "Verona",
+            "street": "Via L. Perini, 3"
+        },
+        "contacts": [
+            {
+                "name": "Jane",
+                "surname": "Rodriguez",
+                "phoneNumber": "+39 0246813579",
+                "email": "mailmail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "a3b53135-1b2f-4411-b0b0-ad2926141ddc",
+        "title": "Event 10",
+        "category": "FAMILY_EDUCATION",
+        "description": "Chitty chat",
+        "dates": {
+            "start": "2022-12-18T18:00:00Z",
+            "end": "2022-12-18T20:00:00Z"
+        },
+        "joinOptions": "FREE",
+        "website": "https://localhost:8080/comunication",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    45.466057650734136,
+                    9.19039789759133
+                ]
+            },
+            "country": "Italy",
+            "region": "Lombardia",
+            "postalCode": "20121",
+            "city": "Milano",
+            "street": "Via Ugo Foscolo, 1/3"
+        },
+        "contacts": [
+            {
+                "name": "Jane",
+                "surname": "Rodriguez",
+                "phoneNumber": "+39 0246813579",
+                "email": "mailmail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "426fbcf6-0c44-4465-aee3-627788b451de",
+        "title": "Event 11",
+        "category": "FASHION_BEAUTY",
+        "description": "Fashion design - course 1",
+        "dates": {
+            "start": "2023-01-18T18:00:00Z",
+            "end": "2023-12-18T20:00:00Z"
+        },
+        "joinOptions": "INVITE",
+        "website": "https://localhost:8080/fashion",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    45.454967071564106,
+                    11.02984920555249
+                ]
+            },
+            "country": "Italy",
+            "region": "Veneto",
+            "postalCode": "37131",
+            "city": "Verona",
+            "street": "Via L. Perini, 3"
+        },
+        "contacts": [
+            {
+                "name": "Jane",
+                "surname": "Rodriguez",
+                "phoneNumber": "+39 0246813579",
+                "email": "mailmail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "dbdd6c36-59fb-4d91-ae66-107d6809e1ad",
+        "title": "Event 12",
+        "category": "FASHION_BEAUTY",
+        "description": "Fashion design - course 2",
+        "dates": {
+            "start": "2023-01-18T18:00:00Z",
+            "end": "2023-12-18T20:00:00Z"
+        },
+        "joinOptions": "INVITE",
+        "website": "https://localhost:8080/fashion",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    45.454967071564106,
+                    11.02984920555249
+                ]
+            },
+            "country": "Italy",
+            "region": "Veneto",
+            "postalCode": "37131",
+            "city": "Verona",
+            "street": "Via L. Perini, 3"
+        },
+        "contacts": [
+            {
+                "name": "Jane",
+                "surname": "Rodriguez",
+                "phoneNumber": "+39 0246813579",
+                "email": "mailmail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "65b2d0cc-8e96-4537-bb83-8ad7cad3a805",
+        "title": "Event 13",
+        "category": "FASHION_BEAUTY",
+        "description": "Fashion design - course 3",
+        "dates": {
+            "start": "2024-01-18T18:00:00Z",
+            "end": "2024-12-18T20:00:00Z"
+        },
+        "joinOptions": "INVITE",
+        "website": "https://localhost:8080/fashion",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    45.454967071564106,
+                    11.02984920555249
+                ]
+            },
+            "country": "Italy",
+            "region": "Veneto",
+            "postalCode": "37131",
+            "city": "Verona",
+            "street": "Via L. Perini, 3"
+        },
+        "contacts": [
+            {
+                "name": "Jane",
+                "surname": "Rodriguez",
+                "phoneNumber": "+39 0246813579",
+                "email": "mailmail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "eac0eae4-be5f-429d-9489-e192070e03fe",
+        "title": "Event 14",
+        "category": "BOOK_CLUBS",
+        "description": "Library",
+        "dates": {
+            "start": "2023-01-18T18:00:00Z",
+            "end": "2023-04-08T20:00:00Z"
+        },
+        "joinOptions": "INVITE",
+        "website": "https://localhost:8080/library",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    45.466057650734136,
+                    9.19039789759133
+                ]
+            },
+            "country": "Italy",
+            "region": "Lombardia",
+            "postalCode": "20121",
+            "city": "Milano",
+            "street": "Via Ugo Foscolo, 1/3"
+        },
+        "contacts": [
+            {
+                "name": "Jane",
+                "surname": "Rodriguez",
+                "phoneNumber": "+39 0246813579",
+                "email": "mailmail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "8560cb55-01e2-42bb-8c91-47ea87938d80",
+        "title": "Event 15",
+        "category": "BUSINESS",
+        "description": "Countability - course 1",
+        "dates": {
+            "start": "2023-04-17T18:00:00Z",
+            "end": "2023-06-18T18:00:00Z"
+        },
+        "joinOptions": "FREE",
+        "website": "https://localhost:8080/contability",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    46.0626148791452,
+                    11.115192995950693
+                ]
+            },
+            "country": "Italy",
+            "region": "Autonomus province of trento",
+            "postalCode": "38122",
+            "city": "Trento",
+            "street": "Corso del Lavoro e della Scienza, 3"
+        },
+        "contacts": [
+            {
+                "name": "Mario",
+                "surname": "Rossi",
+                "phoneNumber": "+39 1234567890",
+                "email": "mail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "e906bb8c-15fc-4e03-8425-022715adb1fd",
+        "title": "Event 16",
+        "category": "BUSINESS",
+        "description": "Countability - course 2",
+        "dates": {
+            "start": "2023-09-17T18:00:00Z",
+            "end": "2023-11-18T18:00:00Z"
+        },
+        "joinOptions": "FREE",
+        "website": "https://localhost:8080/contability",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    46.0626148791452,
+                    11.115192995950693
+                ]
+            },
+            "country": "Italy",
+            "region": "Autonomus province of trento",
+            "postalCode": "38122",
+            "city": "Trento",
+            "street": "Corso del Lavoro e della Scienza, 3"
+        },
+        "contacts": [
+            {
+                "name": "Mario",
+                "surname": "Rossi",
+                "phoneNumber": "+39 1234567890",
+                "email": "mail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "f90729ae-a612-4a12-9d1a-df5b1d566c86",
+        "title": "Event 17",
+        "category": "BUSINESS",
+        "description": "Fashion business pt. 1",
+        "dates": {
+            "start": "2023-01-18T18:00:00Z",
+            "end": "2023-01-18T20:00:00Z"
+        },
+        "joinOptions": "INVITE",
+        "website": "https://localhost:8080/fashion",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    45.44782858351388,
+                    10.695339614163599
+                ]
+            },
+            "country": "Italy",
+            "region": "Lombardia",
+            "postalCode": "20122",
+            "city": "Milano",
+            "street": "Via Conservatorio, 7"
+        },
+        "contacts": [
+            {
+                "name": "Jane",
+                "surname": "Rodriguez",
+                "phoneNumber": "+39 0246813579",
+                "email": "mailmail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "8e773ca7-cc46-412c-a6bc-8d59e58909ce",
+        "title": "Event 18",
+        "category": "BUSINESS",
+        "description": "Fashion business pt. 2",
+        "dates": {
+            "start": "2023-01-25T18:00:00Z",
+            "end": "2023-01-25T20:00:00Z"
+        },
+        "joinOptions": "INVITE",
+        "website": "https://localhost:8080/fashion",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    45.44782858351388,
+                    10.695339614163599
+                ]
+            },
+            "country": "Italy",
+            "region": "Lombardia",
+            "postalCode": "20122",
+            "city": "Milano",
+            "street": "Via Conservatorio, 7"
+        },
+        "contacts": [
+            {
+                "name": "Jane",
+                "surname": "Rodriguez",
+                "phoneNumber": "+39 0246813579",
+                "email": "mailmail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "55ff327f-2956-40ba-a611-e751f1eccf77",
+        "title": "Event 19",
+        "category": "BUSINESS",
+        "description": "Fashion business pt. 3",
+        "dates": {
+            "start": "2023-02-01T18:00:00Z",
+            "end": "2023-02-01T20:00:00Z"
+        },
+        "joinOptions": "INVITE",
+        "website": "https://localhost:8080/fashion",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    45.44782858351388,
+                    10.695339614163599
+                ]
+            },
+            "country": "Italy",
+            "region": "Lombardia",
+            "postalCode": "20122",
+            "city": "Milano",
+            "street": "Via Conservatorio, 7"
+        },
+        "contacts": [
+            {
+                "name": "Jane",
+                "surname": "Rodriguez",
+                "phoneNumber": "+39 0246813579",
+                "email": "mailmail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "6567edf8-30c1-4cc4-a833-83d17e554858",
+        "title": "Event 20",
+        "category": "BUSINESS",
+        "description": "Fashion business pt. 4",
+        "dates": {
+            "start": "2023-02-08T18:00:00Z",
+            "end": "2023-02-08T20:00:00Z"
+        },
+        "joinOptions": "INVITE",
+        "website": "https://localhost:8080/fashion",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    45.44782858351388,
+                    10.695339614163599
+                ]
+            },
+            "country": "Italy",
+            "region": "Lombardia",
+            "postalCode": "20122",
+            "city": "Milano",
+            "street": "Via Conservatorio, 7"
+        },
+        "contacts": [
+            {
+                "name": "Jane",
+                "surname": "Rodriguez",
+                "phoneNumber": "+39 0246813579",
+                "email": "mailmail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "6427381e-228c-4adc-aae1-9c47a55ac7e0",
+        "title": "Event 21",
+        "category": "FILM_MEDIA",
+        "description": "Game movies discussion",
+        "dates": {
+            "start": "2023-01-17T18:00:00Z",
+            "end": "2023-01-17T22:00:00Z"
+        },
+        "joinOptions": "RESTRICTED",
+        "website": "https://localhost:8080/games",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    45.418351529222264,
+                    10.987463953030717
+                ]
+            },
+            "country": "Italy",
+            "region": "Veneto",
+            "postalCode": "37135",
+            "city": "Verona",
+            "street": "Via Molinara, 23"
+        },
+        "contacts": [
+            {
+                "name": "George",
+                "surname": "Bianchi",
+                "phoneNumber": "+39 1029384756",
+                "email": "mail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "5ecc6509-ce93-49e3-820f-6790b32c4b09",
+        "title": "Event 22",
+        "category": "GAMES",
+        "description": "Game training course",
+        "dates": {
+            "start": "2023-01-17T18:00:00Z",
+            "end": "2023-05-17T22:00:00Z"
+        },
+        "joinOptions": "RESTRICTED",
+        "website": "https://localhost:8080/games",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    45.41344192976605,
+                    10.984510532436602
+                ]
+            },
+            "country": "Italy",
+            "region": "Veneto",
+            "postalCode": "37135",
+            "city": "Verona",
+            "street": "Via Merano, 25"
+        },
+        "contacts": [
+            {
+                "name": "George",
+                "surname": "Bianchi",
+                "phoneNumber": "+39 1029384756",
+                "email": "mail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "37233f98-7195-4c0e-9df1-5168cc01d15a",
+        "title": "Event 23",
+        "category": "LANGUAGE_CULTURE",
+        "description": "Language differences",
+        "dates": {
+            "start": "2022-01-17T18:00:00Z",
+            "end": "2022-01-17T21:00:00Z"
+        },
+        "joinOptions": "FREE",
+        "website": "https://localhost:8080/languages",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    46.0626148791452,
+                    11.115192995950693
+                ]
+            },
+            "country": "Italy",
+            "region": "Autonomus province of trento",
+            "postalCode": "38122",
+            "city": "Trento",
+            "street": "Corso del Lavoro e della Scienza, 3"
+        },
+        "contacts": [
+            {
+                "name": "Mario",
+                "surname": "Rossi",
+                "phoneNumber": "+39 1234567890",
+                "email": "mail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "6bc910ba-ba9e-4494-8f4b-816ff019d897",
+        "title": "Event 24",
+        "category": "LEARNING",
+        "description": "Repetitions",
+        "dates": {
+            "start": "2022-01-17T18:00:00Z",
+            "end": "2022-06-17T21:00:00Z"
+        },
+        "joinOptions": "INVITE",
+        "website": "https://localhost:8080/study",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    -73.856077,
+                    40.848447
+                ]
+            },
+            "country": "Italy",
+            "region": "Autonomus province of trento",
+            "postalCode": "38123",
+            "city": "Trento",
+            "street": "Via Sommarive"
+        },
+        "contacts": [
+            {
+                "name": "Mario",
+                "surname": "Rossi",
+                "phoneNumber": "+39 1234567890",
+                "email": "mail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "a4c01c8a-7859-4bea-a5ef-a92960833fb6",
+        "title": "Event 25",
+        "category": "LGBTQ",
+        "description": "Inclusion",
+        "dates": {
+            "start": "2022-11-18T18:00:00Z",
+            "end": "2022-11-18T20:00:00Z"
+        },
+        "joinOptions": "FREE",
+        "website": "https://localhost:8080/events",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    45.454967071564106,
+                    11.02984920555249
+                ]
+            },
+            "country": "Italy",
+            "region": "Veneto",
+            "postalCode": "37131",
+            "city": "Verona",
+            "street": "Via L. Perini, 3"
+        },
+        "contacts": [
+            {
+                "name": "Jane",
+                "surname": "Rodriguez",
+                "phoneNumber": "+39 0246813579",
+                "email": "mailmail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "170dc490-cec5-4ec9-9145-3bf423c19bf0",
+        "title": "Event 26",
+        "category": "MOVEMENTS_POLITICS",
+        "description": "Inclusion movements",
+        "dates": {
+            "start": "2022-12-18T18:00:00Z",
+            "end": "2022-12-18T20:00:00Z"
+        },
+        "joinOptions": "FREE",
+        "website": "https://localhost:8080/events",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    46.0626148791452,
+                    11.115192995950693
+                ]
+            },
+            "country": "Italy",
+            "region": "Autonomus province of trento",
+            "postalCode": "38122",
+            "city": "Trento",
+            "street": "Corso del Lavoro e della Scienza, 3"
+        },
+        "contacts": [
+            {
+                "name": "Jane",
+                "surname": "Rodriguez",
+                "phoneNumber": "+39 0246813579",
+                "email": "mailmail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "792c6c72-0c1c-4b23-90c6-d4abb50da614",
+        "title": "Event 27",
+        "category": "NETWORKING",
+        "description": "Games requirements discussion",
+        "dates": {
+            "start": "2023-01-17T18:00:00Z",
+            "end": "2023-01-17T22:00:00Z"
+        },
+        "joinOptions": "RESTRICTED",
+        "website": "https://localhost:8080/games",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    -73.856077,
+                    40.848447
+                ]
+            },
+            "country": "Italy",
+            "region": "Autonomus province of trento",
+            "postalCode": "38123",
+            "city": "Trento",
+            "street": "Via Sommarive"
+        },
+        "contacts": [
+            {
+                "name": "George",
+                "surname": "Bianchi",
+                "phoneNumber": "+39 1029384756",
+                "email": "mail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "e0fa3265-9deb-4df0-a713-310d8be3750c",
+        "title": "Event 28",
+        "category": "MUSIC",
+        "description": "Games music creation",
+        "dates": {
+            "start": "2023-02-17T18:00:00Z",
+            "end": "2023-02-17T22:00:00Z"
+        },
+        "joinOptions": "FREE",
+        "website": "https://localhost:8080/games",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    45.41344192976605,
+                    10.984510532436602
+                ]
+            },
+            "country": "Italy",
+            "region": "Veneto",
+            "postalCode": "37135",
+            "city": "Verona",
+            "street": "Via Merano, 25"
+        },
+        "contacts": [
+            {
+                "name": "George",
+                "surname": "Bianchi",
+                "phoneNumber": "+39 1029384756",
+                "email": "mail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "ab8742d8-5e3c-452d-92ba-d1ef8369b42f",
+        "title": "Event 29",
+        "category": "COMEDY",
+        "description": "Games humor",
+        "dates": {
+            "start": "2023-03-17T18:00:00Z",
+            "end": "2023-03-17T22:00:00Z"
+        },
+        "joinOptions": "FREE",
+        "website": "https://localhost:8080/games",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    45.43916139670549,
+                    10.994432499634083
+                ]
+            },
+            "country": "Italy",
+            "region": "Veneto",
+            "postalCode": "37121",
+            "city": "Verona",
+            "street": "P.za Bra, 1"
+        },
+        "contacts": [
+            {
+                "name": "George",
+                "surname": "Bianchi",
+                "phoneNumber": "+39 1029384756",
+                "email": "mail@mail.com"
+            }
+        ]
+    },
+    {
+        "uuid": "029aad3a-82a0-4ffe-be6b-eadbe4effe90",
+        "title": "Event 30",
+        "category": "HEALTH",
+        "description": "Apple*day = !doctor",
+        "dates": {
+            "start": "2021-10-17T18:00:00Z",
+            "end": "2023-10-18T18:00:00Z"
+        },
+        "joinOptions": "INVITE",
+        "website": "https://localhost:8080/health",
+        "physicalAddress": {
+            "geo": {
+                "type": "Point",
+                "coordinates": [
+                    -73.856077,
+                    40.848447
+                ]
+            },
+            "country": "Italy",
+            "region": "Autonomus province of trento",
+            "postalCode": "38123",
+            "city": "Trento",
+            "street": "Via Sommarive"
         },
         "contacts": [
             {
