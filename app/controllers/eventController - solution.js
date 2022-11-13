@@ -125,3 +125,94 @@ module.exports.create_event = (req, res) => {
         }
     })
 };
+
+module.exports.get_event = (req, res) => {
+    Event.findOne(
+        {
+            "uuid": req.params.uuid
+        },
+        (err, event) => {
+            if(err){
+                res.status(500).json({
+                    error: MSG.serverError
+                })
+            } else if(event == null){                          //Never return error, it only returns null event collection
+                res.status(404).json({
+                    error: MSG.eventNotFound
+                })
+            } else {
+                res.status(200).json(event)
+            }
+        }
+    )
+};
+
+module.exports.delete_event = (req, res) => {
+    Event.deleteOne(
+        {
+            "uuid": req.params.uuid
+        },
+        (err, op) => {
+            if(op.deletedCount == 0){                       //if event not found
+                res.status(404).json({
+                    error: MSG.eventNotFound
+                })
+            } else if (err){
+                res.status(500).json({
+                    error: MSG.serverError
+                })
+            } else {
+                res.status(200).json("Event deleted")
+            }
+        }
+    )
+};
+
+module.exports.update_event = (req, res) => {
+    let uuid = req.params.uuid;
+    let title = req.body.title;
+    let category = req.body.category
+    let description = req.body.description
+    let dates = req.body.dates
+    let joinOptions = req.body.joinOptions
+    let website = req.body.website
+    let physicalAddress = req.body.physicalAddress
+    let contacts = req.body.contacts
+    
+    Event.findOneAndUpdate({
+            "uuid": uuid
+        }, {
+            "title": title,
+            "category": category,
+            "description": description,
+            "dates": dates,
+            "joinOptions": joinOptions,
+            "website": website,
+            "physicalAddress": physicalAddress,
+            "contacts": contacts
+        }, {
+            new:true
+        },
+        (err, event) => {
+            if (err || event == null) {
+
+                if(err && err.code == 121){                //121 validation error
+                    res.status(400).json({
+                        error: MSG.badRequest
+                    })
+                } else if(event ==  null){      
+                    res.status(404).json({
+                        error: MSG.eventNotFound
+                    })
+                } else {                            //all other cases general server error
+                    res.status(500).json({
+                        error: MSG.serverError
+                    })
+                }
+            }
+            else {
+                res.status(200).json(event);
+            }
+        }
+    )
+};
