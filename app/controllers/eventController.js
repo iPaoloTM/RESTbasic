@@ -126,8 +126,6 @@ module.exports.create_event = (req, res) => {
     })
 };
 
-
-
 module.exports.delete_events = (req, res) => {
     let category = req.query.category;
     let startDate = req.query.startDate;
@@ -180,6 +178,28 @@ module.exports.delete_events = (req, res) => {
         else {
             res.status(200).json({
                 events: event.deletedCount,
+            });
+        }
+    });
+};
+
+module.exports.count_events = (req, res) => {
+
+    let category = req.query.category;
+    
+    Event.count({
+        category: category
+    },
+    (err,event) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({
+                error: MSG.serverError
+            })
+        }
+        else {
+            res.status(200).json({
+                events: event,
             });
         }
     });
