@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 const dotenv = require("dotenv").config();
 
 const DB_NAME = "events_db";
-const DB_CONNECTION_STRING = `mongodb://localhost:27017/${DB_NAME}`;
+const DB_CONNECTION_STRING = `mongodb://${process.env.MONGO_HOST || "localhost:27017"}/${DB_NAME}`;
 const DB_USER = process.env.MONGO_ROOT_USER;
 const DB_PASS = process.env.MONGO_ROOT_PWD;
 
