@@ -62,12 +62,12 @@
                 "start": {
                     "type": "string",
                     "description": "Start date of the event (format: simplified extended ISO format - ISO 8601)",
-                    "pattern": "^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]+)?(Z|[+-](?:2[0-3]|[01][0-9]):[0-5][0-9])?$"
+                    "format": "date-time"
                 },
                 "end": {
                     "type": "string",
                     "description": "End date of the event (format: simplified extended ISO format - ISO 8601)",
-                    "pattern": "^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]+)?(Z|[+-](?:2[0-3]|[01][0-9]):[0-5][0-9])?$"
+                    "format": "date-time"
                 }
             }
         },

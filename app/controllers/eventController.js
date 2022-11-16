@@ -13,8 +13,7 @@ let MSG = {
 
 module.exports.get_events = (req, res) => {
     let category = req.query.category;
-    let startDate = req.query.startDate;
-    let endDate = req.query.endDate;
+    let date = req.query.date;
     let city = req.query.city;
     let radius,geo;
     try {
@@ -41,11 +40,16 @@ module.exports.get_events = (req, res) => {
     if (category != undefined) {
         aggregation[0].$match.category = category;
     }
-    if (startDate != undefined) {
-        aggregation[0].$match["dates.start"] = startDate;
-    }
-    if (endDate != undefined) {
-        aggregation[0].$match["dates.end"] = endDate;
+    if (date != undefined) {
+        aggregation[0].$match["$and"] = [{
+            "dates.start": {
+                $lte: new Date(date)
+            }
+        },{
+            "dates.end": {
+                $gte: new Date(date)
+            }
+        }];
     }
     if (city != undefined) {
         aggregation[0].$match["physicalAddress.city"] = city;
@@ -106,6 +110,7 @@ module.exports.create_event = (req, res) => {
     },
     (err, event) => {
         if (err) {
+            console.error(err);
             if(err.code == 121){                //121 validation error
                 res.status(400).json({
                     error: MSG.badRequest
