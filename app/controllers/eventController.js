@@ -51,7 +51,7 @@ module.exports.get_events = (req, res) => {
     if (city != undefined) {
         aggregation[0].$match["physicalAddress.city"] = city;
     }
-    if (geo != undefined && radius != undefined) { a
+    if (geo != undefined && radius != undefined) {
         aggregation.unshift({
             $geoNear: {
                near: { type: "Point", coordinates: geo },
