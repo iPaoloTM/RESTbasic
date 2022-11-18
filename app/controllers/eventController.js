@@ -3,6 +3,7 @@
 const mongoose = require('mongoose');
 const model = require('../models/event');
 const Event = mongoose.model('Event',model);
+const { v4: uuidv4 } = require('uuid');
 
 let MSG = {
     eventNotFound: "Event not found", //Error code: 404
@@ -82,7 +83,7 @@ module.exports.get_events = (req, res) => {
 };
 
 module.exports.create_event = (req, res) => {
-    let uuid = req.body.uuid;
+    let uuid = uuidv4();
     let title = req.body.title;
     let category = req.body.category;
     let description = req.body.description;
