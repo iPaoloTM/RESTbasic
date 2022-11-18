@@ -13,8 +13,57 @@ let MSG = {
 }
 
 module.exports.get_events = (req, res) => {
+    let category = req.query.category;
+    let startDate = req.query.startDate;
+    let endDate = req.query.endDate;
+    let city = req.query.city;
+    let radius,geo;
+    try {
+        geo = req.query.geo.split(",");
+        for (let i = 0; i < geo.length; i++) {
+            geo[i] = parseFloat(geo[i]);
+        }
+        radius = parseFloat(req.query.radius);
+    } catch (error) {
+        geo = undefined;
+        radius = undefined;
+    }
 
-    Event.find((err,event) => {
+    let aggregation = [
+    {
+        $match: {},
+    },
+    {
+        $project: {
+            _id: 0,
+            uuid: 1,
+        }
+    }];
+    if (category != undefined) {
+        aggregation[0].$match.category = category;
+    }
+    if (startDate != undefined) {
+        aggregation[0].$match["dates.start"] = startDate;
+    }
+    if (endDate != undefined) {
+        aggregation[0].$match["dates.end"] = endDate;
+    }
+    if (city != undefined) {
+        aggregation[0].$match["physicalAddress.city"] = city;
+    }
+    if (geo != undefined && radius != undefined) { a
+        aggregation.unshift({
+            $geoNear: {
+               near: { type: "Point", coordinates: geo },
+               distanceField: "distance",
+               maxDistance: radius,
+            }
+          }
+        );
+    }
+
+    Event.aggregate(aggregation,
+    (err,event) => {
         if (err) {
             console.log(err)
             res.status(500).json({
