@@ -11,7 +11,7 @@ router.post('/', eventHandler.create_event);
 
 router.get('/:uuid', eventHandler.get_event);
 
-router.delete('/', eventHandler.delete_events);
+router.delete('/:uuid', eventHandler.delete_event);
 
 router.put('/:uuid', eventHandler.update_event);
 
