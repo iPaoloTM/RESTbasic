@@ -168,3 +168,21 @@ module.exports.update_event = (req, res) => {
         }
     )
 };
+
+module.exports.delete_events = (req, res) => {
+    Event.deleteMany({
+        "physicalAddress.city": req.query.city,
+    },(err,event) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({
+                error: MSG.serverError
+            });
+        }
+        else {
+            res.status(200).json({
+                events: event.deletedCount,
+            });
+        }
+    });
+};
