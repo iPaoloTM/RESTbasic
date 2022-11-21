@@ -13,21 +13,15 @@ let MSG = {
 }
 
 module.exports.get_events = (req, res) => {
-    let category = req.query.category;
-    let date = req.query.date;
-    let city = req.query.city;
-    let radius,geo;
-    try {
-        geo = req.query.geo.split(",");
-        for (let i = 0; i < geo.length; i++) {
-            geo[i] = parseFloat(geo[i]);
-        }
-        radius = parseFloat(req.query.radius);
-    } catch (error) {
-        geo = undefined;
-        radius = undefined;
-    }
 
+    let radius,response,date,geo;
+
+    let category = req.query.category;
+    let strDate = req.query.date;
+    let city = req.query.city;
+    let strGeo = req.query.geo;
+    let strRadius = req.query.radius;
+    let code = 200;
     let aggregation = [
     {
         $match: {},
@@ -38,48 +32,74 @@ module.exports.get_events = (req, res) => {
             uuid: 1,
         }
     }];
+
     if (category != undefined) {
         aggregation[0].$match.category = category;
     }
-    if (date != undefined) {
-        aggregation[0].$match["$and"] = [{
-            "dates.start": {
-                $lte: new Date(date)
-            }
-        },{
-            "dates.end": {
-                $gte: new Date(date)
-            }
-        }];
+
+    if (strDate != undefined) {
+        date = new Date(strDate);
+        if (checkDate(date)) {
+            aggregation[0].$match.$and = [{
+                "dates.start": {
+                    $lte: date
+                }
+            },{
+                "dates.end": {
+                    $gte: date
+                }
+            }];
+        } else {
+            code = 400;
+            response = MSG.badRequest;
+        }
     }
+
     if (city != undefined) {
         aggregation[0].$match["physicalAddress.city"] = city;
     }
-    if (geo != undefined && radius != undefined) {
-        aggregation.unshift({
-            $geoNear: {
-               near: { type: "Point", coordinates: geo },
-               distanceField: "distance",
-               maxDistance: radius,
-            }
-          }
-        );
+
+    if (strGeo != undefined && strRadius != undefined) {
+        geo = strGeo.split(",");
+        for (let i = 0; i < geo.length; i++) {
+            geo[i] = parseFloat(geo[i]);
+        }
+        radius = parseFloat(strRadius);
+        if (checkCoordinates(geo) && !isNaN(radius)) {
+            aggregation.unshift({
+                    $geoNear: {
+                        near: { type: "Point", coordinates: geo },
+                        distanceField: "distance",
+                        maxDistance: radius,
+                    }
+                }
+            );
+        } else {
+            code = 400;
+            response = MSG.badRequest;
+        }
     }
 
-    Event.aggregate(aggregation,
-    (err,event) => {
-        if (err) {
-            console.log(err)
-            res.status(500).json({
-                error: MSG.serverError
-            })
-        }
-        else {
-            res.status(200).json({
-                events: event,
+    if (code == 200) {
+        Event.aggregate(aggregation,
+            (err,event) => {
+                if (err) {
+                    console.log(err);
+                    res.status(500).json({
+                        error: MSG.serverError,
+                    });
+                }
+                else {
+                    res.status(200).json({
+                        events: event,
+                    });
+                }
             });
-        }
-    });
+    } else {
+        res.status(code).json({
+            error: response,
+        })
+    }
 };
 
 module.exports.create_event = (req, res) => {
@@ -133,60 +153,84 @@ module.exports.create_event = (req, res) => {
 };
 
 module.exports.delete_events = (req, res) => {
+
+    let radius,response,date,geo;
+
     let category = req.query.category;
-    let startDate = req.query.startDate;
-    let endDate = req.query.endDate;
+    let strDate = req.query.date;
     let city = req.query.city;
-    let radius,geo;
-    try {
-        geo = req.query.geo.split(",");
-        for (let i = 0; i < geo.length; i++) {
-            geo[i] = parseFloat(geo[i]);
-        }
-        radius = parseFloat(req.query.radius);
-    } catch (error) {
-        geo = undefined;
-        radius = undefined;
-    }
-    
+    let strGeo = req.query.geo;
+    let strRadius = req.query.radius;
+    let code = 200;
     let match = {};
+    
     if (category != undefined) {
         match.category = category;
     }
-    if (startDate != undefined) {
-        match["dates.start"] = startDate;
+
+    if (strDate != undefined) {
+        date = new Date(strDate);
+        if (checkDate(date)) {
+            match.$and = [{
+                "dates.start": {
+                    $lte: date
+                }
+            },{
+                "dates.end": {
+                    $gte: date
+                }
+            }];
+        } else {
+            code = 400;
+            response = MSG.badRequest;
+        }
     }
-    if (endDate != undefined) {
-        match["dates.end"] = endDate;
-    }
+
     if (city != undefined) {
         match["physicalAddress.city"] = city;
     }
-    if (geo != undefined && radius != undefined) {
-        match["physicalAddress.geo"] = {
-            $near: {
-                $geometry: {
-                    type: "Point" ,
-                    coordinates: geo
-                },
-                $maxDistance: radius,
-            }
-        };
+
+    if (strGeo != undefined && strRadius != undefined) {
+        geo = strGeo.split(",");
+        for (let i = 0; i < geo.length; i++) {
+            geo[i] = parseFloat(geo[i]);
+        }
+        radius = parseFloat(strRadius);
+        if (checkCoordinates(geo) && !isNaN(radius)) {
+            match["physicalAddress.geo"] = {
+                $near: {
+                    $geometry: {
+                        type: "Point" ,
+                        coordinates: geo
+                    },
+                    $maxDistance: radius,
+                }
+            };
+        } else {
+            code = 400;
+            response = MSG.badRequest;
+        }
     }
 
-    Event.deleteMany(match,(err,event) => {
-        if (err) {
-            console.log(err)
-            res.status(500).json({
-                error: MSG.serverError
-            })
-        }
-        else {
-            res.status(200).json({
-                events: event.deletedCount,
-            });
-        }
-    });
+    if (code == 200) {
+        Event.deleteMany(match,(err,event) => {
+            if (err) {
+                console.log(err);
+                res.status(500).json({
+                    error: MSG.serverError
+                });
+            }
+            else {
+                res.status(200).json({
+                    events: event.deletedCount,
+                });
+            }
+        });
+    } else {
+        res.status(code).json({
+            error: response,
+        })
+    }
 };
 
 module.exports.count_events = (req, res) => {
@@ -301,3 +345,11 @@ module.exports.delete_event = (req, res) => {
         }
     )
 };
+
+function checkDate(date) {
+    return !isNaN(date.valueOf());
+}
+
+function checkCoordinates(geo) {
+    return geo.length == 2 && !isNaN(geo[0]) && geo[0] >= -180 && geo[0] <= 180 && !isNaN(geo[1]) && geo[1] >= -90 && geo[1] <= 90;
+}
