@@ -78,6 +78,9 @@ module.exports.get_events = (req, res) => {
             code = 400;
             response = MSG.badRequest;
         }
+    } else if (strGeo != undefined && strRadius == undefined || strGeo == undefined && strRadius != undefined) {
+        code = 400;
+        response = MSG.badRequest;
     }
 
     if (code == 200) {
@@ -210,6 +213,9 @@ module.exports.delete_events = (req, res) => {
             code = 400;
             response = MSG.badRequest;
         }
+    } else if (strGeo != undefined && strRadius == undefined || strGeo == undefined && strRadius != undefined) {
+        code = 400;
+        response = MSG.badRequest;
     }
 
     if (code == 200) {
