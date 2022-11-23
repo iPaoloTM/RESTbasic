@@ -38,7 +38,7 @@ const sample_events = require("./sample_events.json");
                 },
                 "joinOptions": event.joinOptions,
                 "website": event.onlineAddres,
-                "physicalAddress": {
+                "physicalAddress": (event.physicalAddress == null) ? null : {
                     "geo": {
                         "type": "Point",
                         "coordinates": event.physicalAddress.geom.split(";")

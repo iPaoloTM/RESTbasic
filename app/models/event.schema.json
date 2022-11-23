@@ -92,7 +92,7 @@
                 "geo": {
                     "type": "object",
                     "description": "Geographical coordinates (format: GeoJSON)",
-                    "required": ["type","coordinates"],
+                    "required": ["type"],
                     "properties": {
                         "type": {
                             "type": "string",
