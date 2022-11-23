@@ -3,7 +3,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "description": "Base structure of an event",
     "type": "object",
-    "required": ["uuid","title","category","dates","physicalAddress"],
+    "required": ["uuid","title","category","dates"],
     "properties": {
         "uuid": {
             "type": "string",
