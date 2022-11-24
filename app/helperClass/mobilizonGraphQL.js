@@ -11,7 +11,7 @@ const client = new GraphQLClient('http://0.0.0.0:4000/api', {
 module.exports.getEvents = () =>{
     return client.request(`
           {
-            events{
+            events (limit:25) {
               elements{
                 uuid
                  title
